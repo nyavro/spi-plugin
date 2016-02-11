@@ -4,7 +4,7 @@ name := "sbt-spi-plugin"
 
 organization := "com.github.nyavro"
 
-version := "1.0.1"
+version := "1.0.1-SNAPSHOT"
 
 scalaVersion := "2.10.4"
 
@@ -16,7 +16,7 @@ libraryDependencies ++= Seq(
 
 //Publishing:
 
-publishMavenStyle := false
+publishMavenStyle := true
 
 publishArtifact in Test := false
 
