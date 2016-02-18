@@ -1,0 +1,1 @@
+sbt 'project spiClient' 'runMain com.eny.spi_plugin.sample.client.Client1'
