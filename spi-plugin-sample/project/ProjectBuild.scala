@@ -32,16 +32,16 @@ object ProjectBuild extends Build {
       exportJars := true                                                          // Step 1: Set exportJars to true
     )
   )
-    .settings(                                                                    // Step 2: Configure spi-plugin
+    .settings(                                                                    // Step 3: Configure spi-plugin
       SpiKeys.spiPaths := Seq(spi.base.getAbsolutePath),                          //   spiPaths - interfaces sources
       SpiKeys.implPaths := Seq(impl.base.getAbsolutePath),                        //   impPaths - implementation sources
-      mappings in (Compile, packageBin) ++=                                       // Step 3: Configure mappings
+      mappings in (Compile, packageBin) ++=                                       // Step 4: Configure mappings
         mapExport.dependsOn(compile in Compile).value.map (
           spi => new java.io.File(impl.base.getAbsolutePath + "/target", spi) -> ("META-INF/services/" + spi)
         ).toSeq
     )
     .dependsOn(spi)
-    .enablePlugins(SpiPlugin)                                                     // Step 4: Enable spi-plugin
+    .enablePlugins(SpiPlugin)                                                     // Step 2: Enable spi-plugin
 
   lazy val spiClient = Project(
     id = "spiClient",
