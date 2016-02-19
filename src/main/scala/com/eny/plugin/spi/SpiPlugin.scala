@@ -3,6 +3,7 @@ package com.eny.plugin.spi
 import java.io.File
 
 import sbt._
+import sbt.Keys._
 
 object Imports {
 
@@ -12,7 +13,6 @@ object Imports {
     val spiPaths = settingKey[Seq[String]]("Interfaces search folder")
     val traits = settingKey[Seq[String]]("Traits to export")
     val implPaths = settingKey[Seq[String]]("Implementations search folder")
-    val exportPath = settingKey[String]("Path to export file")
   }
 }
 
@@ -25,20 +25,21 @@ object SpiPlugin extends AutoPlugin {
       SpiKeys.spiPaths := Seq("."),
       SpiKeys.implPaths := Seq("."),
       SpiKeys.traits := Seq(),
-      SpiKeys.exportPath := "export.txt",
-      mapExport := {
-        println(SpiKeys.spiPaths.value)
-        println(SpiKeys.implPaths.value)
-        println(SpiKeys.traits.value)
-        println(SpiKeys.exportPath.value)
-        new MapImplementations(SpiKeys.spiPaths.value, SpiKeys.traits.value, SpiKeys.implPaths.value).run()
-          .withFilter { case (_, impls) => impls.size > 0 }
-          .map {
-            case (spi, impls) =>
-              new Export(new File(SpiKeys.exportPath.value, spi).getAbsolutePath, impls).run()
-              spi
-          }
-          .toSet
+      mapExport <<= (baseDirectory, target, SpiKeys.spiPaths, SpiKeys.implPaths, SpiKeys.traits, streams).map {
+        (base, targ, spi, impl, traits, str) =>
+          str.log.info("spi-plugin: Generating entries for export")
+          str.log.info(s"""spi-plugin: Interfaces source directories: [${spi.mkString(",")}]""")
+          str.log.info(s"""spi-plugin: Traits(Interfaces) to export: [${traits.mkString(",")}]""")
+          str.log.info(s"""spi-plugin: Implementations source directories: [${impl.mkString(",")}]""")
+          new MapImplementations(spi, traits, impl).run()
+            .withFilter { case (_, impls) => impls.size > 0 }
+            .map {
+              case (sp, imp) =>
+                str.log.info(s"""spi-plugin: Exporting implementations of $sp: [${imp.mkString(",")}]""")
+                new Export(new File(targ, sp).getAbsolutePath, imp).run()
+                sp
+            }
+            .toSet
       }
     )
   }

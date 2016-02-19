@@ -19,7 +19,7 @@ object ProjectBuild extends Build {
     .settings(itSettings: _*)
 
   lazy val sharedSettings = Seq(
-    version := "1.0.1-SNAPSHOT",
+    version := "1.0.2-SNAPSHOT",
     scalaVersion := "2.10.4",
     name := "sbt-spi-plugin",
     organization := "com.github.nyavro",

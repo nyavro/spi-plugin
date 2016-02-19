@@ -23,34 +23,32 @@ object ProjectBuild extends Build {
     settings = super.settings ++ sharedSettings
   )
 
-  lazy val target = impl.base.getAbsolutePath + "/target"
   lazy val mapExport = TaskKey[Set[String]]("mapExport")
 
   lazy val impl:Project = Project(
     id = "impl",
     base = file("impl"),
     settings = super.settings ++ sharedSettings ++ Seq(
-      exportJars := true
+      exportJars := true                                                          // Step 1: Set exportJars to true
     )
   )
-    .settings(
-      SpiKeys.spiPaths := Seq(spi.base.getAbsolutePath),
-      SpiKeys.implPaths := Seq(impl.base.getAbsolutePath),
-      SpiKeys.exportPath := target,
-      mappings in (Compile, packageBin) ++=
+    .settings(                                                                    // Step 2: Configure spi-plugin
+      SpiKeys.spiPaths := Seq(spi.base.getAbsolutePath),                          //   spiPaths - interfaces sources
+      SpiKeys.implPaths := Seq(impl.base.getAbsolutePath),                        //   impPaths - implementation sources
+      mappings in (Compile, packageBin) ++=                                       // Step 3: Configure mappings
         mapExport.dependsOn(compile in Compile).value.map (
-          spi => new java.io.File(target, spi) -> ("META-INF/services/" + spi)
+          spi => new java.io.File(impl.base.getAbsolutePath + "/target", spi) -> ("META-INF/services/" + spi)
         ).toSeq
     )
     .dependsOn(spi)
-    .enablePlugins(SpiPlugin)
+    .enablePlugins(SpiPlugin)                                                     // Step 4: Enable spi-plugin
 
   lazy val spiClient = Project(
     id = "spiClient",
     base = file("spiClient"),
     settings = super.settings ++ sharedSettings
   )
-    .dependsOn(spi, impl % "runtime")
+    .dependsOn(spi, impl % "runtime")                                             // Step 5: Mark 'impl' dependency runtime
 
   lazy val sharedSettings = super.settings ++ Seq(
     version := "1.0.0",
