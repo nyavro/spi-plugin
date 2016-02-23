@@ -8,5 +8,8 @@ class InterfacesListTest extends WordSpec with Matchers {
     "detect all interfaces of root folder" in {
       new InterfacesList("./target").interfaces should === (Set("test.spi.ServiceASpi","test.spi.ServiceBSpi"))
     }
+    "detect all interfaces inside jar" in {
+      new InterfacesList(getClass.getResource("spi.jar").getFile).interfaces should === (Set("com.eny.spi_plugin.sample.spi.Greeting"))
+    }
   }
 }

@@ -19,5 +19,12 @@ class MapImplementationsTest extends WordSpec with Matchers {
         )
       )
     }
+    "detect all implementations inside jar of given interfaces located in jar" in {
+      new MapImplementations(Seq(getClass.getResource("spi.jar").getFile), Seq(), Seq(getClass.getResource("impl.jar").getFile)).run should === (
+        Map(
+          "com.eny.spi_plugin.sample.spi.Greeting" -> Set("com.eny.spi_plugin.sample.spi.GreetingImpl")
+        )
+      )
+    }
   }
 }
