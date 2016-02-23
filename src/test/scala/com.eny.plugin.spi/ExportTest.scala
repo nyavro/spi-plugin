@@ -9,7 +9,7 @@ import scala.io.Source
 class ExportTest extends WordSpec with Matchers {
   "Export" should {
     "write lines to a file" in {
-      new Export("res.txt", List("valueA", "valueB")).run()
+      new FileTarget("res.txt").write(List("valueA", "valueB"))
       Source
         .fromFile("res.txt")
         .getLines()

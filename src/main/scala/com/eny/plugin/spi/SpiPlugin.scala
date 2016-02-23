@@ -36,7 +36,7 @@ object SpiPlugin extends AutoPlugin {
             .map {
               case (sp, imp) =>
                 str.log.info(s"""spi-plugin: Exporting implementations of $sp: [${imp.mkString(",")}]""")
-                new Export(new File(targ, sp).getAbsolutePath, imp).run()
+                new FileTarget(new File(targ, sp).getAbsolutePath).write(imp)
                 sp
             }
             .toSet
