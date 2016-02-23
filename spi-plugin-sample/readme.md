@@ -33,10 +33,7 @@ Consider multi-project with following sub-projects:
 
 3.  Configure keys of spi-plugin:
 
-    + *SpiKeys.spiPaths* - Set of directories to search for traits or interfaces
-    + *SpiKeys.implPaths* - Set of directories to search for implementations
-    + *SpiKeys.traits* - You can specify Set of desired interfaces to be exported.
-       For example, when SpiKeys.traits set as Set("com.package.CorrespondenceService") then implementations of
-        'com.package.CorrespondenceService', at paths specified by SpiKeys.implPaths will be exported
+    + *SpiKeys.spiPaths* - Set of directories to search for traits or interfaces, in this case the set of one entry - path to spi project base
+    + *SpiKeys.implPaths* - Set of directories to search for implementations, in this case the set of one entry - path to impl project base
 4.  Use mappings task to copy generated export files to "META-INF/services" folder of jar file
 5.  Now make spiClient use impl in runtime by setting impl % "runtime" dependency
