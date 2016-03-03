@@ -4,7 +4,7 @@ import sbt._
 object ProjectBuild extends Build {
 
   lazy val commonSettings =  Seq(
-    version in ThisBuild := "1.0.3",
+    version in ThisBuild := "1.0.4",
     organization in ThisBuild := "com.github.nyavro"
   )
 
