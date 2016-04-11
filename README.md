@@ -1,5 +1,7 @@
 # spi-plugin
 
+![Build Status](https://travis-ci.org/nyavro/spi-plugin.svg?branch=master)
+
 **spi-plugin** helps automatically generate *META-INF/services/** for use by java.util.ServiceLoader
 
 ### Configuring
