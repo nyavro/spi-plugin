@@ -10,6 +10,7 @@
 + *SpiKeys.traits* - 'manually' point the set of desired interfaces to be exported.
    For example, when SpiKeys.traits set as Set("com.package.CorrespondenceService") then implementations of
    'com.package.CorrespondenceService', at paths specified by SpiKeys.implPaths will be exported
++ *SpiKeys.spiModules* - You can pass a Set of ModuleID to search for traits
 
 ### How does it work?
 

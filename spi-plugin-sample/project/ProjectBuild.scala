@@ -30,7 +30,7 @@ object ProjectBuild extends Build {
     base = file("impl"),
     settings = super.settings ++ sharedSettings ++ SpiPlugin.projectSettings
   )
-    .settings(                                                                    // Step 3: Configure spi-plugin
+    .settings(                                                                    // Step 1: Configure spi-plugin
       SpiKeys.spiPaths := Seq(spi.base.getAbsolutePath),                          //   spiPaths - interfaces sources
       SpiKeys.implPaths := Seq(impl.base.getAbsolutePath)                         //   impPaths - implementation sources
   )
@@ -42,7 +42,7 @@ object ProjectBuild extends Build {
     base = file("spiClient"),
     settings = super.settings ++ sharedSettings
   )
-    .dependsOn(spi, impl % "runtime")                                             // Step 5: Mark 'impl' dependency runtime
+    .dependsOn(spi, impl % "runtime")                                             // Step 3: Mark 'impl' dependency runtime
 
   lazy val sharedSettings = super.settings ++ Seq(
     version := "1.0.0",
