@@ -9,7 +9,7 @@ class InterfacesListTest extends WordSpec with Matchers {
       new InterfacesList("./target").interfaces should === (Set("test.spi.ServiceASpi","test.spi.ServiceBSpi"))
     }
     "detect all interfaces inside jar" in {
-      new InterfacesList(getClass.getResource("./spi.jar").getFile).interfaces should === (Set("com.eny.spi_plugin.sample.spi.Greeting"))
+      new InterfacesList(getClass.getResource("spi.jar").getPath).interfaces should === (Set("com.eny.spi_plugin.sample.spi.Greeting"))
     }
   }
 }
